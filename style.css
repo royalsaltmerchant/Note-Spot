@@ -71,7 +71,7 @@ main {
 
 section {
   background-color: white;
-  border: 1px solid var(--second-gray);
+  border: 3px solid var(--second-gray);
   border-radius: var(--border-radius);
   position: absolute;
   width: 200px;
@@ -83,10 +83,15 @@ section {
 }
 
 section textarea {
-  all: unset;
+  /* all: unset; */
+  resize: none;
+  outline: none;
+  font-family: inherit;
+  font-size: inherit;
   flex: 1;
   overflow: scroll;
   padding: 2px;
+  border: none;
 }
 
 section textarea:focus {

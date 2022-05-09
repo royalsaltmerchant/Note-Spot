@@ -1,5 +1,5 @@
 //Make the DIV element draggagle & resizable:
-interact('.resize-drag')
+interact('.resize')
   .resizable({
     edges: { top: true, left: true, bottom: true, right: true },
     listeners: {
@@ -21,7 +21,7 @@ interact('.resize-drag')
     modifiers: [
       // keep the edges inside the parent
       interact.modifiers.restrictEdges({
-        outer: 'parent'
+        outer: 'main'
       }),
 
       // minimum size
@@ -32,18 +32,20 @@ interact('.resize-drag')
 
     inertia: true
   })
+
+interact('.draggable-header')
   .draggable({
     // enable inertial throwing
     inertia: true,
     // keep the element within the area of it's parent
     modifiers: [
       interact.modifiers.restrictRect({
-        restriction: 'parent',
+        restriction: 'main',
         endOnly: true
       }),
       // keep the edges inside the parent
       interact.modifiers.restrictEdges({
-        outer: 'parent'
+        outer: 'main'
       }),
     ],
     // enable autoScroll
@@ -56,7 +58,7 @@ interact('.resize-drag')
   })
 
   function dragMoveListener (event) {
-    var target = event.target
+    var target = event.target.parentElement
     // keep the dragged position in the data-x/data-y attributes
     var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx
     var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy

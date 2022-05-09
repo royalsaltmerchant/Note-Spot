@@ -75,12 +75,8 @@ section {
   border-radius: var(--border-radius);
 }
 
-input {
-  all: unset;
-}
-
 section input::placeholder {
-  color: var(--placeholder-color)
+  color: inherit;
 }
 
 section textarea {
@@ -96,6 +92,7 @@ section textarea:focus {
 }
 
 section input {
+  all: unset;
   flex: 1;
   overflow: scroll;
   padding: 2px;
@@ -106,11 +103,9 @@ section input:focus {
   margin: 0.1px;
 }
 
-section p {
-  flex: 1;
-  overflow: scroll;
-  padding: 2px;
-}
+/* section p:empty:not(:focus)::before {
+  content: attr(data-placeholder);
+} */
 
 .note-block {
   position: absolute;
@@ -147,6 +142,11 @@ section p {
   cursor: pointer;
   border: 1px solid white;
 }
+
+/* .draggable-header button:focus {
+  color: white;
+  border: 1px solid white;
+} */
 
 .draggable-header button:active {
   color: var(--main-orange);

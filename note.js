@@ -8,8 +8,10 @@
   // dynamic render of note component
   function Note(props) {
     this.id = props.id
-    this.title = `Note ${noteCount}`
-    this.text = 'Text...'
+    this.title = ''
+    this.text = ''
+
+    var self = this
 
     // store a hash of notes
     if(!window.notes) window.notes = {}
@@ -20,48 +22,45 @@
       
       section.id = this.id
       section.classList.add('note-block')
-      section.classList.add('resize-drag')
+      section.classList.add('resize')
       var sectionBody = /*html*/ `
         <div class="draggable-header">
-          <p>${this.title}</p>
-          <button onclick="var self = window.getNote(this); self.toggleEdit(this.parentElement.parentElement)">Edit</button>
+          <input onfocusout="var self = window.getNote(this); self.title = this.value;" id="title" placeholder="New Note">
         </div>
-        <p>${this.text}</p>
+        <textarea onfocusout="var self = window.getNote(this); self.text = this.value;" id="text" placeholder="Start Typing...">${this.text}</textarea>
       `
       section.innerHTML = sectionBody
       document.querySelector('main').appendChild(section)
     }
 
-    this.toggleEdit = function(section) {
-      if(!this.edit) {
-        this.edit = true
+    // this.toggleEdit = function(section) {
+    //   if(!this.edit) {
+    //     this.edit = true
 
-        section.classList.remove('resize-drag')
+    //     var sectionBody = /*html*/ `
+    //       <form class="draggable-header">
+    //         <input placeholder="Title..." value="${this.title}">
+    //         <button type="submit" tabindex="-1" onclick="var self = window.getNote(this); self.toggleEdit(this.parentElement.parentElement)">Done</button>
+    //       </form>
+    //       <textarea placeholder="Start Typing...">${this.text}</textarea>
+    //     `
+    //     section.innerHTML = sectionBody
+    //     section.children[0].children[0].focus()
+    //   } else {
+    //     this.edit = false
+    //     this.title = section.children[0].children[0].value
+    //     // this.text = section.children[1].value
 
-        var sectionBody = /*html*/ `
-          <div class="draggable-header">
-            <input placeholder="Title..." value="${this.title}">
-            <button onclick="var self = window.getNote(this); self.toggleEdit(this.parentElement.parentElement)">Done</button>
-          </div>
-          <textarea placeholder="Start Typing...">${this.text}</textarea>
-        `
-        section.innerHTML = sectionBody
-      } else {
-        this.edit = false
-        this.title = section.children[0].children[0].value
-        this.text = section.children[1].value
-
-        section.classList.add('resize-drag')
-        var sectionBody = /*html*/ `
-        <div class="draggable-header">
-          <p>${this.title}</p>
-          <button onclick="var self = window.getNote(this); self.toggleEdit(this.parentElement.parentElement)">Edit</button>
-        </div>
-        <p>${this.text}</p>
-      `
-      section.innerHTML = sectionBody
-      }
-    }
+    //     var sectionBody = /*html*/ `
+    //     <div class="draggable-header">
+    //       <p>${this.title}</p>
+    //       <button onclick="var self = window.getNote(this); self.toggleEdit(this.parentElement.parentElement)">Edit</button>
+    //     </div>
+    //     <textarea placeholder="Start Typing...">${this.text}</textarea>
+    //   `
+    //   section.innerHTML = sectionBody
+    //   }
+    // }
 
     this.render()
     return this

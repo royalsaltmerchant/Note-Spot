@@ -43,10 +43,6 @@ interact('.draggable-header')
         restriction: 'main',
         endOnly: true
       }),
-      // keep the edges inside the parent
-      interact.modifiers.restrictEdges({
-        outer: 'main'
-      }),
     ],
     // enable autoScroll
     autoScroll: true,

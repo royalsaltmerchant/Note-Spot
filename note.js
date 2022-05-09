@@ -11,8 +11,6 @@ function Note(props) {
   this.title = ''
   this.text = ''
 
-  var self = this
-
   // store a hash of notes
   if(!window.notes) window.notes = {}
   window.notes[this.id] = this
@@ -22,6 +20,7 @@ function Note(props) {
     section.id = this.id
     section.classList.add('resize')
     section.addEventListener('mousedown', function(e) {
+      e.stopPropagation()
       var notesArray = Object.values(window.notes)
       notesArray.forEach(function(note) {
         var noteElem = document.getElementById(note.id)
@@ -34,7 +33,7 @@ function Note(props) {
     var sectionBody = /*html*/ `
       <div class="draggable-header">
         <input onfocusout="var self = window.getNote(this); self.title = this.value;" id="title" placeholder="New Note">
-        <button onclick="var self = window.getNote(this); self.removeNote(this.parentElement.parentElement)">✕</button>
+        <button onclick="var self = window.getNote(this); self.removeNote(self, this.parentElement.parentElement)">✕</button>
       </div>
       <textarea onfocusout="var self = window.getNote(this); self.text = this.value;" id="text" placeholder="Start Typing...">${this.text}</textarea>
     `
@@ -43,8 +42,13 @@ function Note(props) {
     document.querySelector('main').appendChild(section)
   }
   
-  this.removeNote = function(noteSection) {
-    if(window.confirm(`Are you sure you want to delete note: "${this.title}"`)) noteSection.remove()
+  this.removeNote = function(self, noteSection) {
+    if(window.confirm(`Are you sure you want to delete note: "${this.title}"`)) {
+      noteSection.remove()
+      console.log(self)
+      delete window.notes[self.id]
+      console.log(window.notes)
+    }
   }
 
   this.render()

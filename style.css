@@ -82,10 +82,6 @@ section {
   flex-direction: column;
 }
 
-section input::placeholder {
-  color: inherit;
-}
-
 section textarea {
   all: unset;
   flex: 1;
@@ -103,6 +99,11 @@ section input {
   flex: 1;
   overflow: scroll;
   padding: 2px;
+  text-shadow: 1px 0px 0px black;
+}
+
+section input::placeholder {
+  color: inherit;
 }
 
 section input:focus {

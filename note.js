@@ -59,10 +59,10 @@ function Note(props) {
     document.querySelector('main').appendChild(section)
 
     // save note on resize
-    var resizeObserver = new ResizeObserver(entries => {
+    var resizeObserver = new ResizeObserver(throttle(entries => {
+      if(window.notes[this.section.id])
       this.saveNote()
-      console.log('yes')
-    })
+    }, 1000))
     resizeObserver.observe(this.section)
   }
 
@@ -143,6 +143,14 @@ function getRandomColor() {
     color += letters[Math.floor(Math.random() * 16)];
   }
   return color;
+}
+
+function throttle(f, delay) {
+  let timer = 0;
+  return function(...args) {
+      clearTimeout(timer);
+      timer = setTimeout(() => f.apply(this, args), delay);
+  }
 }
 
 

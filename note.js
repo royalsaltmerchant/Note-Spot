@@ -49,7 +49,7 @@ function Note(props) {
     var sectionBody = /*html*/ `
       <div class="draggable-header">
         <input onfocusout="var self = window.getNote(this); self.title = this.value; self.saveNote()" onmouseup="var self = window.getNote(this); self.title = this.value; self.saveNote()" id="title" placeholder="New Note" value="${this.title}">
-        <button onclick="var self = window.getNote(this); self.removeNote(self, this.parentElement.parentElement)">✕</button>
+        <button tabindex="-1" onclick="var self = window.getNote(this); self.removeNote(self, this.parentElement.parentElement)">✕</button>
       </div>
       <textarea onfocusout="var self = window.getNote(this); self.text = this.value; self.saveNote()" id="text" placeholder="Start Typing...">${this.text}</textarea>
     `

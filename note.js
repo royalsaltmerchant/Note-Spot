@@ -18,6 +18,7 @@ function Note(props) {
   this.left = props.left
   this.width = props.width
   this.height = props.height
+  this.zIndex = props.zIndex
   this.element;
 
   // store a hash of notes
@@ -33,6 +34,7 @@ function Note(props) {
     section.style.left = `${this.left}px`
     section.style.width = `${this.width}px`
     section.style.height = `${this.height}px`
+    section.style.zIndex = this.zIndex
     section.classList.add('resize')
     // keep current note on top
     section.addEventListener('mousedown', function(e) {
@@ -42,7 +44,13 @@ function Note(props) {
         var noteElem = document.getElementById(note.id)
         if(section.id === noteElem.id) {
           section.style.zIndex = 2
-        } else noteElem.style.zIndex = 1
+          note.zIndex = 2
+          note.saveNote()
+        } else {
+          noteElem.style.zIndex = 1
+          window.notes[noteElem.id].zIndex = 1
+          note.saveNote()
+        }
       })
     }, true)
     // inside section
@@ -77,15 +85,22 @@ function Note(props) {
     var mainRect = document.querySelector('main').getBoundingClientRect()
     var relativeTop = elemRect.top - mainRect.top
     newNote.top = relativeTop
+    this.top = relativeTop
     newNote.left = elemRect.left
+    this.left = elemRect.left
+    newNote.zIndex = this.zIndex
     // calculate width and height
     newNote.width = this.section.offsetWidth
+    this.width = this.section.offsetWidth
     newNote.height = this.section.offsetHeight
+    this.height = this.section.offsetHeight
     // save to local storage
     var notes = noteStore.getStoredNotes()
     var isAlreadyNote = notes.some(note => note.id === newNote.id)
     if(!isAlreadyNote) noteStore.addNote(newNote)
     else noteStore.saveNote(newNote)
+    // save to state
+    window.notes[newNote.id] = this
   }
   
   this.removeNote = function(self, noteSection) {
@@ -105,7 +120,7 @@ function newNote() {
   noteCount++
   // check to see if there is a note already in start position recursively
   function getNewSpot(top, left) {
-    var isInSpot = noteStore.getStoredNotes().some(note => note.top === top && note.left === left)
+    var isInSpot = Object.values(window.notes).some(note => note.top === top && note.left === left)
     if(isInSpot) {
       top += 16
       left += 16
@@ -135,7 +150,7 @@ function getSavedNotes() {
   var notes = noteStore.getStoredNotes()
 
   if(notes.length === 0) {
-    var newNote1 = new Note({id: `note-${noteCount}`, color: '#0083C9'})
+    var newNote1 = new Note({id: `note-${noteCount}`, color: '#0083C9', top: 8, left: 8})
     newNote1.saveNote()
   } else {
     var ids = []
@@ -148,7 +163,8 @@ function getSavedNotes() {
         top: note.top,
         left: note.left,
         width: note.width,
-        height: note.height
+        height: note.height,
+        zIndex: note.zIndex
       })
       // get ids to set noteCount to highest number 
       var noteIdAsNumber = parseInt(note.id.split('-')[1])

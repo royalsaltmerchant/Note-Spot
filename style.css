@@ -37,6 +37,13 @@ hr {
   margin-right: auto;
 }
 
+a {
+  color: var(--main-blue);
+}
+a:hover {
+  color: var(--main-orange);
+}
+
 header {
   display: flex;
   justify-content: flex-end;

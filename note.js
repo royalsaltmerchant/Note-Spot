@@ -62,7 +62,7 @@ function Note(props) {
     var resizeObserver = new ResizeObserver(throttle(entries => {
       if(window.notes[this.section.id])
       this.saveNote()
-    }, 1000))
+    }, 100))
     resizeObserver.observe(this.section)
   }
 
@@ -75,7 +75,8 @@ function Note(props) {
     // calculate location
     var elemRect = this.section.getBoundingClientRect()
     var mainRect = document.querySelector('main').getBoundingClientRect()
-    newNote.top = elemRect.top - mainRect.top
+    var relativeTop = elemRect.top - mainRect.top
+    newNote.top = relativeTop
     newNote.left = elemRect.left
     // calculate width and height
     newNote.width = this.section.offsetWidth
@@ -102,8 +103,33 @@ function Note(props) {
 function newNote() {
   // increment note count id number
   noteCount++
+  // check to see if there is a note already in start position recursively
+  function getNewSpot(top, left) {
+    console.log(top, left)
+    var isInSpot = noteStore.getStoredNotes().some(note => note.top === top && note.left === left)
+    console.log(isInSpot)
+    if(isInSpot) {
+      top += 16
+      left += 16
+      getNewSpot(top, left)
+    } else {
+      // create new note
+      var newNote = new Note({id: `note-${noteCount}`, color: getRandomColor(), top: top, left: left})
+      // place new note on top
+      var notesArray = Object.values(window.notes)
+      notesArray.forEach(function(note) {
+        var noteElem = document.getElementById(note.id)
+        if(newNote.id === noteElem.id) {
+          noteElem.style.zIndex = 2
+        } else noteElem.style.zIndex = 1
+      })
+    }
+  }
 
-  new Note({id: `note-${noteCount}`, color: getRandomColor()})
+  var startTop = 8
+  var startLeft = 8
+
+  getNewSpot(startTop, startLeft)
 }
 
 function getSavedNotes() {
@@ -111,7 +137,8 @@ function getSavedNotes() {
   var notes = noteStore.getStoredNotes()
 
   if(notes.length === 0) {
-    new Note({id: `note-${noteCount}`, color: '#0083C9'})
+    var newNote1 = new Note({id: `note-${noteCount}`, color: '#0083C9'})
+    newNote1.saveNote()
   } else {
     var ids = []
     notes.forEach(note => {

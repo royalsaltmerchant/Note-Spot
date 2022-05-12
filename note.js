@@ -105,9 +105,7 @@ function newNote() {
   noteCount++
   // check to see if there is a note already in start position recursively
   function getNewSpot(top, left) {
-    console.log(top, left)
     var isInSpot = noteStore.getStoredNotes().some(note => note.top === top && note.left === left)
-    console.log(isInSpot)
     if(isInSpot) {
       top += 16
       left += 16

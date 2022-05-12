@@ -48,7 +48,7 @@ function Note(props) {
           note.saveNote()
         } else {
           noteElem.style.zIndex = 1
-          window.notes[noteElem.id].zIndex = 1
+          note.zIndex = 1
           note.saveNote()
         }
       })
@@ -134,7 +134,13 @@ function newNote() {
         var noteElem = document.getElementById(note.id)
         if(newNote.id === noteElem.id) {
           noteElem.style.zIndex = 2
-        } else noteElem.style.zIndex = 1
+          note.zIndex = 2
+          note.saveNote()
+        } else {
+          noteElem.style.zIndex = 1
+          note.zIndex = 1
+          note.saveNote()
+        }
       })
     }
   }

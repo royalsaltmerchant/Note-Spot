@@ -177,7 +177,8 @@ function getSavedNotes() {
       ids.push(noteIdAsNumber)
     })
     // set note count to latest post id
-    var latestId = ids.sort()
+    var latestId = ids.sort((a, b) => a - b)
+    console.log(latestId)
     noteCount = latestId[latestId.length - 1]
   }
 }

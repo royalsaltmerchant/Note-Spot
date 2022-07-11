@@ -142,6 +142,9 @@ function newNote() {
           note.saveNote()
         }
       })
+      // focus on title of new note
+      var newNoteElem = document.getElementById(newNote.id)
+      newNoteElem.children[0].children[0].focus()
     }
   }
 

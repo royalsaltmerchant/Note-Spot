@@ -3,7 +3,7 @@ var currentTab = ''
 function Tab(props) {
   var self = this
   this.id = props.id
-  this.title = ''
+  this.title = props.title
 
   // store a hash of tabs
   if(!window.tabs) window.tabs = {}
@@ -25,8 +25,10 @@ function Tab(props) {
     // tab input
     var tabInput = document.createElement('input')
     tabInput.placeholder = 'New Tab'
+    tabInput.value = this.title
     tabInput.addEventListener('focusout', function() {
       self.title = tabInput.value
+      self.saveTab()
     })
 
     // tab remove button
@@ -37,9 +39,12 @@ function Tab(props) {
       if(allTabs.length > 1) {
         if(window.confirm(`Are you sure you want to delete tab: "${self.title}"`)) {
           var previousTab = tabDiv.previousElementSibling
-          highlightTab(previousTab.id, false)
+          var nextTab = tabDiv.nextElementSibling
+          if(previousTab) highlightTab(previousTab.id, false)
+          else if(newTab) highlightTab(nextTab.id, false)
           delete window.tabs[tabDiv.id]
           tabDiv.remove()
+          tabStore.removeTab(self.id)
         }
       }
     })
@@ -50,22 +55,34 @@ function Tab(props) {
     tabContainerElem.insertBefore(tabDiv, document.getElementById('new-tab-btn'))
   }
 
+  this.saveTab = function() {
+    // save to local storage
+    var tabs = tabStore.getStoredTabs()
+    var isAlreadyTab = tabs.some(tab => tab.id === self.id)
+    if(!isAlreadyTab) tabStore.addTab(self)
+    else tabStore.saveTab(self)
+  }
+
   this.render()
   return this
 }
 
 function newTab(focus) {
-  var newTab = new Tab({id: uuid.v4()})
+  var newTab = new Tab({id: uuid.v4(), title: ''})
+  newTab.saveTab()
   highlightTab(newTab.id, focus)
 }
 
 function getSavedTabs() {
   // get saved
-  var tabs = []
+  var tabs = tabStore.getStoredTabs()
   if(tabs.length === 0) {
     newTab(false)
   } else {
-
+    tabs.forEach(tab => {
+      new Tab({id: tab.id, title: tab.title})
+    })
+    highlightTab(tabs[0].id, false)
   }
 }
 

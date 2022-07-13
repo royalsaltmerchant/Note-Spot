@@ -60,9 +60,7 @@ function TabStore() {
 
   this.addTab = function(tab) {
     var tabs = this.getStoredTabs()
-
     tabs.push(tab)
-
     localStorage.setItem('tabs', JSON.stringify(tabs))
   }
 
@@ -76,7 +74,7 @@ function TabStore() {
   }
 
   this.removeTab = function(id) {
-    var tabs = this.getStoredNotes()
+    var tabs = this.getStoredTabs()
 
     tabs.forEach((tab, index) => {
       if(tab.id === id) {

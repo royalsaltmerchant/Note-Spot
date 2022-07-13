@@ -88,7 +88,7 @@ function getSavedTabs() {
 
 function highlightTab(tabToHighlightId, focus) {
   // set current tab to this
-  currentTab = newTab.id
+  currentTab = tabToHighlightId
 
   // set current tab on top and others below on click
   var allTabs = Object.values(window.tabs)
@@ -99,6 +99,16 @@ function highlightTab(tabToHighlightId, focus) {
       if(focus) tabElem.children[0].focus()
     } else tabElem.setAttribute('style', 'border-bottom: 1px solid var(--second-gray)')
   })
+  
+  // refres notes per tab
+  if(window.notes) {
+    var allNotes = Object.values(window.notes)
+    allNotes.forEach(note => {
+      var noteElem = document.getElementById(note.id)
+      if(note.tab === currentTab) noteElem.style.display = 'flex'
+      else noteElem.style.display = 'none'
+    })
+  }
 }
 
 getSavedTabs()

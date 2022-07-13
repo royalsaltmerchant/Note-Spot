@@ -17,6 +17,7 @@ function Note(props) {
   this.height = props.height
   this.zIndex = props.zIndex
   this.element;
+  this.tab = props.tab
 
   // store a hash of notes
   if(!window.notes) window.notes = {}
@@ -24,6 +25,7 @@ function Note(props) {
 
   this.render = function() {
     var section = document.createElement('section')
+    this.element = section
     // create and setup section
     this.section = section
     section.id = this.id
@@ -77,6 +79,8 @@ function Note(props) {
     newNote.title = this.title
     newNote.text = this.text
     newNote.color = this.color
+    // set tab
+    newNote.tab = this.tab
     // calculate location
     var elemRect = this.section.getBoundingClientRect()
     var mainRect = document.querySelector('main').getBoundingClientRect()
@@ -107,7 +111,7 @@ function Note(props) {
       delete window.notes[self.id]
     }
   }
-
+  
   this.render()
   return this
 }
@@ -122,7 +126,7 @@ function newNote() {
       getNewSpot(top, left)
     } else {
       // create new note
-      var newNote = new Note({id: uuid.v4(), color: getRandomColor(), top: top, left: left})
+      var newNote = new Note({id: uuid.v4(), tab: currentTab, color: getRandomColor(), top: top, left: left})
       // place new note on top
       var notesArray = Object.values(window.notes)
       notesArray.forEach(function(note) {
@@ -154,12 +158,13 @@ function getSavedNotes() {
   var notes = noteStore.getStoredNotes()
 
   if(notes.length === 0) {
-    var newNote1 = new Note({id: uuid.v4(), color: '#0083C9', top: 8, left: 8})
+    var newNote1 = new Note({id: uuid.v4(), tab: currentTab, color: '#0083C9', top: 8, left: 8})
     newNote1.saveNote()
   } else {
     notes.forEach(note => {
       new Note({
         id: note.id, 
+        tab: note.tab ? note.tab : currentTab,
         color: note.color, 
         title: note.title, 
         text: note.text,

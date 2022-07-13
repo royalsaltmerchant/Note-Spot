@@ -9,14 +9,14 @@
   <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js" defer></script>
   <script src="dragResize.js" defer></script>
-  <script src="store.js"></script>
+  <script src="store.js" defer></script>
   <script src="tab.js" defer></script>
   <script src="note.js" defer></script>
 </head>
 <body>
   <header>
     <div id="tab-container">
-      <button id="new-tab-btn" onclick="newTab()">+</button>
+      <button id="new-tab-btn" onclick="newTab(true)">+</button>
     </div>
     <div class="empty-header-div"></div>
     <button id="new-note-btn" onclick="newNote()">+ Note</button>

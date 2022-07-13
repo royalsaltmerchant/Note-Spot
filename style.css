@@ -101,17 +101,17 @@ header button:active {
   display: flex;
   justify-content: space-between;
   border: 1px solid var(--second-gray);
-  border-bottom: 0px;
   border-radius: 6px 6px 0px 0px;
 }
 
-#tab-container input {
+.tab input {
   all: unset;
   font-weight: bolder;
   overflow: scroll;
+  margin: 3px 6px;
 }
 
-#tab-container input:focus {
+.tab input:focus {
   background-color: white;
 }
 

@@ -44,3 +44,50 @@ function NoteStore() {
 }
 
 var noteStore = new NoteStore()
+
+function TabStore() {
+  this.getStoredTabs = function() {
+    var tabs;
+
+    if(localStorage.getItem('tabs') === null) {
+      tabs = []
+    } else {
+      tabs = JSON.parse(localStorage.getItem('tabs'))
+    }
+
+    return tabs
+  }
+
+  this.addTab = function(tab) {
+    var tabs = this.getStoredTabs()
+
+    tabs.push(tab)
+
+    localStorage.setItem('tabs', JSON.stringify(tabs))
+  }
+
+  this.saveTab = function(tabToSave) {
+    var tabs = this.getStoredTabs()
+
+    var tabIndex = tabs.findIndex(tab => tabToSave.id === tab.id)
+    tabs[tabIndex] = tabToSave
+
+    localStorage.setItem('tabs', JSON.stringify(tabs))
+  }
+
+  this.removeTab = function(id) {
+    var tabs = this.getStoredNotes()
+
+    tabs.forEach((tab, index) => {
+      if(tab.id === id) {
+        tabs.splice(index, 1)
+      }
+    })
+
+    localStorage.setItem('tabs', JSON.stringify(tabs))
+  }
+
+  return this
+}
+
+var tabStore = new TabStore()

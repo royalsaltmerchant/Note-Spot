@@ -24,6 +24,7 @@ body {
   font-family: 'Open Sans', sans-serif;
   font-size: 15px;
   height: 100vh;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   overscroll-behavior: none;
@@ -48,16 +49,26 @@ a:hover {
 header {
   display: flex;
   justify-content: flex-end;
-  font-size: large;
   background-color: white;
+}
+
+.empty-header-div {
+  /* outline: 1px solid red; */
+  display: flex;
+  flex: 1;
   border-bottom: 1px solid var(--second-gray);
-  width: 100%;
-  padding: var(--main-padding) 20px;
+}
+
+#new-note-btn {
+  border-bottom: 1px solid var(--second-gray);
 }
 
 header button {
   all: unset;
+  font-size: large;
   color: var(--main-blue);
+  padding: var(--main-padding) 20px;
+  white-space: nowrap;
 }
 
 header button:hover {
@@ -68,10 +79,61 @@ header button:active {
   color: var(--main-orange);
 }
 
+#new-tab-btn {
+  font-size: 1.5rem;
+  padding: 0px var(--main-padding) 0px var(--main-padding);
+  border-bottom: 1px solid var(--second-gray);
+}
+
+#tab-container {
+  display: flex;
+  align-items: flex-end;
+  overflow-x: hidden;
+}
+
+.tab {
+  width: 100%;
+  min-width: 0px;
+  color: rgb(61, 61, 61);
+  padding: 5px 5px;
+  margin-left: 2px;
+  background-color: var(--main-gray);
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid var(--second-gray);
+  border-bottom: 0px;
+  border-radius: 6px 6px 0px 0px;
+}
+
+#tab-container input {
+  all: unset;
+  font-weight: bolder;
+  overflow: scroll;
+}
+
+#tab-container input:focus {
+  background-color: white;
+}
+
+.tab button {
+  padding: 0px 5px 0px 5px;
+  color: var(--dark-gray);
+}
+
+.tab button:hover {
+  background-color: white;
+  border-radius: 40px;
+}
+
+.tab button:active {
+  color: var(--main-orange);
+}
+
 main {
   flex: 1;
   position: relative;
-  overflow: hidden;
+  overflow-x: scroll;
+  overflow-y: hidden;
   display: flex;
   flex-direction: column;
   padding: var(--main-padding);

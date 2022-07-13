@@ -16,7 +16,6 @@ function Note(props) {
   this.width = props.width
   this.height = props.height
   this.zIndex = props.zIndex
-  this.element;
   this.tab = props.tab
 
   // store a hash of notes
@@ -25,7 +24,6 @@ function Note(props) {
 
   this.render = function() {
     var section = document.createElement('section')
-    this.element = section
     // create and setup section
     this.section = section
     section.id = this.id

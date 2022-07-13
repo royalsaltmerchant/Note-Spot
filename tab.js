@@ -100,11 +100,13 @@ function highlightTab(tabToHighlightId, focus) {
     } else tabElem.setAttribute('style', 'border-bottom: 1px solid var(--second-gray)')
   })
 
-  var allNotes = Object.values(window.notes)
-  allNotes.forEach(note => {
-    if(note.tab === currentTab) document.getElementById(note.id).style.visibility = 'visible'
-    else document.getElementById(note.id).style.visibility = 'hidden'
-  })
+  setTimeout(() => {
+    var allNotes = Object.values(window.notes)
+    allNotes.forEach(note => {
+      if(note.tab === currentTab) document.getElementById(note.id).style.visibility = 'visible'
+      else document.getElementById(note.id).style.visibility = 'hidden'
+    })
+  }, 10)
 }
 
 getSavedTabs()

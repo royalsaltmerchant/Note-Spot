@@ -38,10 +38,19 @@ function Tab(props) {
       var allTabs = Object.values(window.tabs)
       if(allTabs.length > 1) {
         if(window.confirm(`Are you sure you want to delete tab: "${self.title}"`)) {
+          // highlight another tab
           var previousTab = tabDiv.previousElementSibling
           var nextTab = tabDiv.nextElementSibling
           if(previousTab) highlightTab(previousTab.id, false)
           else if(newTab) highlightTab(nextTab.id, false)
+          // remove all associated notes
+          var allNotes = Object.values(window.notes)
+          allNotes.forEach(note => {
+            if(note.tab === self.id) {
+              noteStore.removeNote(note.id)
+            }
+          })
+          // remove tab from store and DOM
           delete window.tabs[tabDiv.id]
           tabDiv.remove()
           tabStore.removeTab(self.id)

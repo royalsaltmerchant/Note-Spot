@@ -1,6 +1,3 @@
-// for creating ID's
-var noteCount = 1
-
 // get specific note object
 window.getNote = function(elem) {
   var id = elem.closest('section').id
@@ -19,7 +16,7 @@ function Note(props) {
   this.width = props.width
   this.height = props.height
   this.zIndex = props.zIndex
-  this.element;
+  this.tab = props.tab
 
   // store a hash of notes
   if(!window.notes) window.notes = {}
@@ -80,6 +77,8 @@ function Note(props) {
     newNote.title = this.title
     newNote.text = this.text
     newNote.color = this.color
+    // set tab
+    newNote.tab = this.tab
     // calculate location
     var elemRect = this.section.getBoundingClientRect()
     var mainRect = document.querySelector('main').getBoundingClientRect()
@@ -110,14 +109,12 @@ function Note(props) {
       delete window.notes[self.id]
     }
   }
-
+  
   this.render()
   return this
 }
 
 function newNote() {
-  // increment note count id number
-  noteCount++
   // check to see if there is a note already in start position recursively
   function getNewSpot(top, left) {
     var isInSpot = Object.values(window.notes).some(note => note.top === top && note.left === left)
@@ -127,7 +124,7 @@ function newNote() {
       getNewSpot(top, left)
     } else {
       // create new note
-      var newNote = new Note({id: `note-${noteCount}`, color: getRandomColor(), top: top, left: left})
+      var newNote = new Note({id: uuid.v4(), tab: currentTab, color: getRandomColor(), top: top, left: left})
       // place new note on top
       var notesArray = Object.values(window.notes)
       notesArray.forEach(function(note) {
@@ -159,13 +156,13 @@ function getSavedNotes() {
   var notes = noteStore.getStoredNotes()
 
   if(notes.length === 0) {
-    var newNote1 = new Note({id: `note-${noteCount}`, color: '#0083C9', top: 8, left: 8})
+    var newNote1 = new Note({id: uuid.v4(), tab: currentTab, color: '#0083C9', top: 8, left: 8})
     newNote1.saveNote()
   } else {
-    var ids = []
     notes.forEach(note => {
       new Note({
         id: note.id, 
+        tab: note.tab ? note.tab : currentTab,
         color: note.color, 
         title: note.title, 
         text: note.text,
@@ -175,13 +172,7 @@ function getSavedNotes() {
         height: note.height,
         zIndex: note.zIndex
       })
-      // get ids to set noteCount to highest number 
-      var noteIdAsNumber = parseInt(note.id.split('-')[1])
-      ids.push(noteIdAsNumber)
     })
-    // set note count to latest post id
-    var latestId = ids.sort((a, b) => a - b)
-    noteCount = latestId[latestId.length - 1]
   }
 }
 

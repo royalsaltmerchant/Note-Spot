@@ -193,7 +193,3 @@ function throttle(f, delay) {
       timer = setTimeout(() => f.apply(this, args), delay);
   }
 }
-
-
-// Init notes on start
-getSavedNotes()

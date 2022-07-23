@@ -91,8 +91,12 @@ function getSavedTabs() {
     tabs.forEach(tab => {
       new Tab({id: tab.id, title: tab.title})
     })
-    highlightTab(tabs[0].id, false)
   }
+  // get notes before highlighting
+  getSavedNotes()
+  var allTabs = Object.values(window.tabs)
+  console.log(allTabs[0].id)
+  highlightTab(allTabs[0].id, false)
 }
 
 function highlightTab(tabToHighlightId, focus) {
@@ -109,13 +113,11 @@ function highlightTab(tabToHighlightId, focus) {
     } else tabElem.setAttribute('style', 'border-bottom: 1px solid var(--second-gray)')
   })
 
-  setTimeout(() => {
-    var allNotes = Object.values(window.notes)
-    allNotes.forEach(note => {
-      if(note.tab === currentTab) document.getElementById(note.id).style.visibility = 'visible'
-      else document.getElementById(note.id).style.visibility = 'hidden'
-    })
-  }, 20)
+  var allNotes = Object.values(window.notes)
+  allNotes.forEach(note => {
+    if(note.tab === currentTab) document.getElementById(note.id).style.visibility = 'visible'
+    else document.getElementById(note.id).style.visibility = 'hidden'
+  })
 }
 
 getSavedTabs()

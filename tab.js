@@ -115,7 +115,7 @@ function highlightTab(tabToHighlightId, focus) {
       if(note.tab === currentTab) document.getElementById(note.id).style.visibility = 'visible'
       else document.getElementById(note.id).style.visibility = 'hidden'
     })
-  }, 10)
+  }, 20)
 }
 
 getSavedTabs()

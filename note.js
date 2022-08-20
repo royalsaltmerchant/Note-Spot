@@ -1,9 +1,3 @@
-// get specific note object
-window.getNote = function(elem) {
-  var id = elem.closest('section').id
-  return window.notes[id]
-}
-
 // dynamic render of note component
 function Note(props) {
   // init Note 
@@ -19,7 +13,6 @@ function Note(props) {
   this.tab = props.tab
 
   // store a hash of notes
-  if(!window.notes) window.notes = {}
   window.notes[this.id] = this
 
   this.render = function() {

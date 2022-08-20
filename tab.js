@@ -1,5 +1,3 @@
-var currentTab = ''
-
 function Tab(props) {
   var self = this
   this.id = props.id

@@ -44,7 +44,7 @@ function Tab(props) {
           // remove all associated notes
           var allNotes = Object.values(window.notes)
           allNotes.forEach(note => {
-            if(note.tab === self.id) {
+            if(note.tab == self.id) {
               noteStore.removeNote(note.id)
             }
           })

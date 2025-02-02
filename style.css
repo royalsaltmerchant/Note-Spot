@@ -117,6 +117,7 @@ header button:active {
 
 .tab input {
   all: unset;
+  width: 90%;
   font-weight: bolder;
   overflow: scroll;
   margin: 3px 6px;
